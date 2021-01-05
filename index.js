@@ -1,8 +1,6 @@
 const authentication = require('./authentication');
 const addListMemberCreate = require('./creates/add_list_member.js');
 
-const recipeResource = require("./resources/recipe");
-
 const App = {
   version: require('./package.json').version,
   platformVersion: require('zapier-platform-core').version,
@@ -19,7 +17,6 @@ const App = {
   },
 
   resources: {
-    [recipeResource.key]: recipeResource
   }
 };
 
