@@ -1,4 +1,13 @@
 module.exports = {
+  key: 'add_list_member',
+  noun: 'Relatie',
+  display: {
+    label: 'Voeg Relatie Toe',
+    description:
+      'Voegt een nieuwe relatie aan een bestaande lijst in je Laposta account.',
+    hidden: false,
+    important: true,
+  },
   operation: {
     perform: {
       url: 'https://api.laposta.nl/v2/member',
@@ -58,14 +67,14 @@ module.exports = {
       member: {
         member_id: '%member_id%',
         list_id: '%list_id%',
-        email: 'my@email.com',
+        email: 'test@example.net',
         state: 'active',
-        signup_date: '2020-11-17 13:36:52',
+        signup_date: new Date(),
         modified: null,
         confirm_date: null,
         ip: '0.0.0.0',
         source_url: null,
-        custom_fields: { voornaam: 'First name', achternaam: 'Last name' },
+        custom_fields: { voornaam: 'Voornaam (voorbeeld)', achternaam: 'Achternaam (voorbeeld)' },
       },
     },
     outputFields: [
@@ -81,14 +90,5 @@ module.exports = {
       { key: 'member__custom_fields__voornaam' },
       { key: 'member__custom_fields__achternaam' },
     ],
-  },
-  key: 'add_list_member',
-  noun: 'Relation',
-  display: {
-    label: 'Voeg een relatie toe aan een Laposta lijst',
-    description:
-      'Voegt een nieuwe relatie aan een bestaande lijst in je Laposta account.',
-    hidden: false,
-    important: true,
   },
 };
