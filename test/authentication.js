@@ -11,7 +11,8 @@ describe('Test Authentication', () => {
   it('should return no 401', async () => {
     const bundle = {
       authData: {
-        username: process.env.API_KEY,
+        // username: process.env.API_KEY,
+        api_key: process.env.API_KEY,
       },
       inputData: {
       },

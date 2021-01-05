@@ -1,13 +1,21 @@
 module.exports = {
-  type: 'basic',
+  type: 'custom',
   test: {
     url: 'https://api.laposta.nl/v2/auth',
     method: 'GET',
-    params: {},
-    headers: {},
-    body: {},
-    removeMissingValuesFrom: {},
+    // params: {},
+    // headers: {},
+    // body: {},
+    // removeMissingValuesFrom: {},
   },
-  basicConfig: {},
-  connectionLabel: '{{bundle.inputData.api_key}}',
+  fields: [
+    {
+      key: 'api_key',
+      type: 'string',
+      required: true,
+      helpText: 'De Api key kun je bij je Laposta account vinden bij "Toegang & Abonnement -> Koppelingen"',
+    },
+  ],
+  // basicConfig: {},
+  // connectionLabel: '{{bundle.inputData.api_key}}',
 };
