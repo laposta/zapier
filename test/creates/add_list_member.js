@@ -9,7 +9,7 @@ const Str = require('@supercharge/strings');
 const randomData = {
   email : Str.random(10) + '@laposta.tester.nl',
   firstname : Str.random(1).toUpperCase() + Str.random(10),
-  lastname : 'Laposta Tester',
+  lastname : 'Tester (' + new Date().toLocaleString('nl-NL','short') + ')',
 };
 
 describe('Create - add_list_member', () => {
@@ -18,7 +18,7 @@ describe('Create - add_list_member', () => {
   it('should create an object', async () => {
     const bundle = {
       authData: {
-        username: process.env.API_KEY,
+        api_key: process.env.API_KEY,
       },
       inputData: {
         list_id: process.env.LIST_ID,
