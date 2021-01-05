@@ -11,6 +11,7 @@
     "npm": ">=5.6.0"
   },
   "dependencies": {
+    "@supercharge/strings": "^1.17.1",
     "zapier-platform-core": "10.1.2"
   },
   "devDependencies": {
