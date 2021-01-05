@@ -21,7 +21,7 @@ module.exports = {
         key: 'list_id',
         label: 'List ID',
         type: 'string',
-        helpText: "The id from you're Laposta list.",
+        helpText: "Een geldig list_id van je Laposta lijst.",
         required: true,
         list: false,
         altersDynamicFields: false,
@@ -85,9 +85,9 @@ module.exports = {
   key: 'add_list_member',
   noun: 'Relation',
   display: {
-    label: 'Add relation to a Laposta list',
+    label: 'Voeg een relatie toe aan een Laposta lijst',
     description:
-      'Adds a new relation to an existing list in your Laposta account.',
+      'Voegt een nieuwe relatie aan een bestaande lijst in je Laposta account.',
     hidden: false,
     important: true,
   },
