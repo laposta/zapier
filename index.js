@@ -5,6 +5,12 @@ module.exports = {
   version: require('./package.json').version,
   platformVersion: require('zapier-platform-core').version,
   authentication: authentication,
-  creates: { [addListMemberCreate.key]: addListMemberCreate },
-  triggers: {},
+  creates: {
+    [addListMemberCreate.key]: addListMemberCreate
+  },
+  triggers: {
+
+  },
+  // beforeRequest:[],
+  // afterResponse:[],
 };

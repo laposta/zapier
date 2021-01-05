@@ -1,5 +1,5 @@
-# LaPosta - Zapier connection #
+# Laposta - Zapier connection #
 
-Connection for [LaPosta](https://www.laposta.nl) with [Zapier](https://www.zapier.com).
+Connection for [Laposta](https://www.laposta.nl) with [Zapier](https://www.zapier.com).
 
 Developer: Jan den Besten <info@jandenbesten.net>

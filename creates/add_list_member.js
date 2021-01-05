@@ -21,7 +21,7 @@ module.exports = {
         key: 'list_id',
         label: 'List ID',
         type: 'string',
-        helpText: "The id from you're LaPosta list.",
+        helpText: "The id from you're Laposta list.",
         required: true,
         list: false,
         altersDynamicFields: false,
@@ -85,9 +85,9 @@ module.exports = {
   key: 'add_list_member',
   noun: 'Relation',
   display: {
-    label: 'Add relation to a LaPosta list',
+    label: 'Add relation to a Laposta list',
     description:
-      'Adds a new relation to an existing list in your LaPosta account.',
+      'Adds a new relation to an existing list in your Laposta account.',
     hidden: false,
     important: true,
   },
