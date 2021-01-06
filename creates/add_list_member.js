@@ -1,50 +1,37 @@
-// const customInputFields = async (z, bundle) => {
-//   zapier.tools.env.inject();
-//   const response = await z.request('https://api.laposta.nl/v2/field?list_id='+process.env.LIST_ID);
-//   // console.log(response.data);
-//   // Should return an array like [{"key":"field_1"},{"key":"field_2"}]
-//   return response.data;
-// };
+const listFields = async (z, bundle) => {
+  z.console.log('Starting listFields', bundle.inputData.list_id);
+  const response = await z.request('https://api.laposta.nl/v2/field?list_id='+bundle.inputData.list_id);
+  z.console.log('Response from listFields', response);
+  if (response.data.data) {
+    // Convert Laposta response to Zap field schema
+    let responseFields = response.data.data;
+    z.console.log('responseFields', responseFields);
+    let customFields = responseFields.map( e => {
+      let field = e.field;
+      let type = 'string'; // Laposta (text, numeric, date, select_single, select_multiple) Zapier: 'string', 'text', 'integer', 'number', 'boolean', 'datetime', 'file', 'password', 'copy'
+      switch (field.type) {
+        case 'numeric':
+          type = 'number';
+          break;
+        case 'date':
+          type = 'datetime';
+          break;
+      }
+      return {
+        key: field.tag.replace(/{{/g, "").replace(/}}/g, ""),
+        label: field.name,
+        type: type,
+        helpText: field.name+' van de nieuwe relatie',
+        required: field.required,
+        list: false,
+        altersDynamicFields: false,
+      };
+    });
+    return customFields;
+  }
+  return [];
+}
 
-const inputFields = [
-  {
-    key: 'list_id',
-    label: 'List ID',
-    type: 'string',
-    helpText: "Een geldig list_id van je Laposta lijst.",
-    required: true,
-    list: false,
-    altersDynamicFields: false,
-  },
-  {
-    key: 'email',
-    label: 'Email',
-    type: 'string',
-    helpText: 'Een geldig e-mail adres van de nieuwe relatie',
-    required: true,
-    list: false,
-    altersDynamicFields: false,
-  },
-  // customInputFields,
-  {
-    key: 'voornaam',
-    label: 'Voornaam',
-    type: 'string',
-    helpText: 'Voornaam van de nieuwe relatie',
-    required: false,
-    list: false,
-    altersDynamicFields: false,
-  },
-  {
-    key: 'achternaam',
-    label: 'Achternaam',
-    type: 'string',
-    helpText: 'Achternaam van de nieuwe relatie',
-    required: false,
-    list: false,
-    altersDynamicFields: false,
-  },
-];
 
 // Main
 const AddListMember = {
@@ -77,7 +64,27 @@ const AddListMember = {
       });
       return promise.then((response) => response.data);
     },
-    inputFields: inputFields,
+    inputFields: [
+      {
+        key: 'list_id',
+        label: 'List ID',
+        type: 'string',
+        helpText: "De List ID kun je vinden bij de [kenmerken](https://app.laposta.nl/c.listconfig/s.settings/t.config/) van je Laposta lijst (bij 'ID voor API').",
+        required: true,
+        list: false,
+        altersDynamicFields: false,
+      },
+      // {
+      //   key: 'email',
+      //   label: 'Email',
+      //   type: 'string',
+      //   helpText: 'Een geldig e-mail adres van de nieuwe relatie',
+      //   required: true,
+      //   list: false,
+      //   altersDynamicFields: false,
+      // },
+      listFields,
+    ],
     sample: {
       member: {
         member_id: '%member_id%',

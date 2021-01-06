@@ -12,6 +12,8 @@ Developer: Jan den Besten <info@jandenbesten.net>
 
 `zapier test`
 
+## Push/Publish
 
+`zapier push`
 
 
