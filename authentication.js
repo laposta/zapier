@@ -13,9 +13,9 @@ module.exports = {
       key: 'api_key',
       type: 'string',
       required: true,
-      helpText: 'De Api key kun je bij je Laposta account vinden bij "Toegang & Abonnement -> Koppelingen"',
+      helpText: 'Ga naar [koppelingen](https://app.laposta.nl/config/c.connect/s.api/) om de Api key te vinden bij van jou Laposta account',
     },
   ],
   // basicConfig: {},
-  // connectionLabel: '{{bundle.inputData.api_key}}',
+  connectionLabel: '{{bundle.inputData.api_key}}',
 };
