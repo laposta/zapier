@@ -1,4 +1,53 @@
-module.exports = {
+// const customInputFields = async (z, bundle) => {
+//   zapier.tools.env.inject();
+//   const response = await z.request('https://api.laposta.nl/v2/field?list_id='+process.env.LIST_ID);
+//   // console.log(response.data);
+//   // Should return an array like [{"key":"field_1"},{"key":"field_2"}]
+//   return response.data;
+// };
+
+const inputFields = [
+  {
+    key: 'list_id',
+    label: 'List ID',
+    type: 'string',
+    helpText: "Een geldig list_id van je Laposta lijst.",
+    required: true,
+    list: false,
+    altersDynamicFields: false,
+  },
+  {
+    key: 'email',
+    label: 'Email',
+    type: 'string',
+    helpText: 'Een geldig e-mail adres van de nieuwe relatie',
+    required: true,
+    list: false,
+    altersDynamicFields: false,
+  },
+  // customInputFields,
+  {
+    key: 'voornaam',
+    label: 'Voornaam',
+    type: 'string',
+    helpText: 'Voornaam van de nieuwe relatie',
+    required: false,
+    list: false,
+    altersDynamicFields: false,
+  },
+  {
+    key: 'achternaam',
+    label: 'Achternaam',
+    type: 'string',
+    helpText: 'Achternaam van de nieuwe relatie',
+    required: false,
+    list: false,
+    altersDynamicFields: false,
+  },
+];
+
+// Main
+const AddListMember = {
   key: 'add_list_member',
   noun: 'Relatie',
   display: {
@@ -9,60 +58,26 @@ module.exports = {
     important: true,
   },
   operation: {
-    perform: {
-      url: 'https://api.laposta.nl/v2/member',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/json',
-      },
-      body: {
-        list_id: '{{bundle.inputData.list_id}}',
-        ip: '0.0.0.0',
-        email: '{{bundle.inputData.email}}',
-        'custom_fields[voornaam]': '{{bundle.inputData.voornaam}}',
-        'custom_fields[achternaam]': '{{bundle.inputData.achternaam}}',
-      },
-      removeMissingValuesFrom: {},
+    perform: (z, bundle) => {
+      const promise = z.request({
+        url: 'https://api.laposta.nl/v2/member',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Accept: 'application/json',
+        },
+        body: {
+          list_id: bundle.inputData.list_id,
+          ip: '0.0.0.0',
+          email: bundle.inputData.email,
+          'custom_fields[voornaam]': bundle.inputData.voornaam,
+          'custom_fields[achternaam]': bundle.inputData.achternaam,
+        },
+        removeMissingValuesFrom: {},
+      });
+      return promise.then((response) => response.data);
     },
-    inputFields: [
-      {
-        key: 'list_id',
-        label: 'List ID',
-        type: 'string',
-        helpText: "Een geldig list_id van je Laposta lijst.",
-        required: true,
-        list: false,
-        altersDynamicFields: false,
-      },
-      {
-        key: 'email',
-        label: 'Email',
-        type: 'string',
-        helpText: 'Een geldig e-mail adres van de nieuwe relatie',
-        required: true,
-        list: false,
-        altersDynamicFields: false,
-      },
-      {
-        key: 'voornaam',
-        label: 'Voornaam',
-        type: 'string',
-        helpText: 'Voornaam van de nieuwe relatie',
-        required: false,
-        list: false,
-        altersDynamicFields: false,
-      },
-      {
-        key: 'achternaam',
-        label: 'Achternaam',
-        type: 'string',
-        helpText: 'Achternaam van de nieuwe relatie',
-        required: false,
-        list: false,
-        altersDynamicFields: false,
-      },
-    ],
+    inputFields: inputFields,
     sample: {
       member: {
         member_id: '%member_id%',
@@ -92,3 +107,5 @@ module.exports = {
     ],
   },
 };
+
+module.exports = AddListMember;
