@@ -17,5 +17,5 @@ module.exports = {
     },
   ],
   // basicConfig: {},
-  connectionLabel: '{{bundle.inputData.api_key}}',
+  connectionLabel: '{{bundle.inputData.account_name}}',
 };
