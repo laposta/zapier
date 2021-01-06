@@ -39,8 +39,7 @@ const AddListMember = {
   noun: 'Relatie',
   display: {
     label: 'Voeg Relatie Toe',
-    description:
-      'Voegt een nieuwe relatie aan een bestaande lijst in je Laposta account.',
+    description: 'Voegt een nieuwe relatie aan een bestaande lijst in je Laposta account.',
     hidden: false,
     important: true,
   },
