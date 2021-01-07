@@ -6,7 +6,7 @@ Developer: Jan den Besten <jan@laposta.nl>
 ## Install
 
 - `npm install`
-- Copy `example.env` to `.env` and fill in you're API_KEY and LIST_ID
+- Copy `example.env` to `.env` and fill in you're API_KEY and LIST_ID (only needed for testing)
 
 ## Test
 
