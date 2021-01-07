@@ -1,23 +1,17 @@
+const addApiKeyToHeader = require('./request_headers.js');
+const responseErrorHandling = require('./response_errors.js');
 const authentication = require('./authentication');
 const addListMemberCreate = require('./creates/add_list_member.js');
 
-const addApiKeyToHeader = (request, z, bundle) => {
-  // request.headers['X-Subdomain'] = bundle.authData.subdomain;
-  const basicHash = Buffer.from(`${bundle.authData.api_key}:x`).toString(
-    'base64'
-  );
-  request.headers.Authorization = `Basic ${basicHash}`;
-  return request;
-};
 
+// Main Zapier App
 const App = {
   version: require('./package.json').version,
   platformVersion: require('zapier-platform-core').version,
   authentication: authentication,
 
   beforeRequest: [addApiKeyToHeader],
-
-  // afterResponse:[],
+  afterResponse:[responseErrorHandling],
 
   triggers: {
   },
@@ -29,6 +23,5 @@ const App = {
   resources: {
   }
 };
-
 
 module.exports = App;

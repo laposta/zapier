@@ -1,36 +1,102 @@
-module.exports = {
+const convertFields = function(lapostaFields) {
+  let zapierFields = lapostaFields.map( e => {
+    let field = e.field;
+    let custom = (field.custom_name !== null);
+    let key = field.tag.replace(/{{/g, "").replace(/}}/g, "");
+    if (custom) {
+      key = 'custom_fields['+field.custom_name+']';
+    }
+    let type = 'string'; // Laposta (text, numeric, date, select_single, select_multiple) Zapier: 'string', 'text', 'integer', 'number', 'boolean', 'datetime', 'file', 'password', 'copy'
+    let choices = false;
+    switch (field.type) {
+      case 'numeric':
+        type = 'number';
+        break;
+      case 'date':
+        type = 'datetime';
+        break;
+      case 'select_single' :
+      case 'select_multiple' :
+        choices = field.options_full;
+        break;
+    }
+    let zapField = {
+      key: key,
+      label: field.name,
+      type: type,
+      helpText: field.name+' van de nieuwe relatie',
+      placeholder: field.name+' van de nieuwe relatie',
+      required: field.required,
+      list: false,
+      altersDynamicFields: false,
+    };
+    if ( choices!==false ) {
+      zapField.choices = choices;
+    }
+    return zapField;
+  });
+  return zapierFields;
+}
+
+const dynamicInputFields = async (z, bundle) => {
+  z.console.log('Starting dynamicInputFields', bundle.inputData.list_id);
+  const response = await z.request('https://api.laposta.nl/v2/field?list_id='+bundle.inputData.list_id);
+  // z.console.log('Response from dynamicInputFields', response);
+  if (response.data.data) {
+    let customFields = convertFields(response.data.data);
+    z.console.log('Converted fields', response);
+    return customFields;
+  }
+  return [];
+}
+
+const dynamicOutputFields = async (z, bundle) => {
+  // z.console.log('Starting dynamicOutputFields', bundle.inputData.list_id);
+  const response = await z.request('https://api.laposta.nl/v2/field?list_id='+bundle.inputData.list_id);
+  // z.console.log('Response from dynamicOutputFields', response);
+  if (response.data.data) {
+    let customFields = convertFields(response.data.data);
+    // z.console.log('Converted fields', response);
+    return customFields;
+  }
+  return [];
+}
+
+
+// Main
+const AddListMember = {
   key: 'add_list_member',
   noun: 'Relatie',
   display: {
     label: 'Voeg Relatie Toe',
-    description:
-      'Voegt een nieuwe relatie aan een bestaande lijst in je Laposta account.',
+    description: 'Voegt een nieuwe relatie aan een bestaande lijst in je Laposta account.',
     hidden: false,
     important: true,
   },
   operation: {
-    perform: {
-      url: 'https://api.laposta.nl/v2/member',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/json',
-      },
-      body: {
-        list_id: '{{bundle.inputData.list_id}}',
-        ip: '0.0.0.0',
-        email: '{{bundle.inputData.email}}',
-        'custom_fields[voornaam]': '{{bundle.inputData.voornaam}}',
-        'custom_fields[achternaam]': '{{bundle.inputData.achternaam}}',
-      },
-      removeMissingValuesFrom: {},
+    perform: (z, bundle) => {
+      let body     = bundle.inputData;
+      body.list_id = bundle.inputData.list_id;
+      body.ip      = '0.0.0.0';
+      const promise = z.request({
+        url: 'https://api.laposta.nl/v2/member',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Accept: 'application/json',
+        },
+        body: body,
+        removeMissingValuesFrom: {},
+      });
+      return promise.then((response) => response.data);
     },
     inputFields: [
       {
         key: 'list_id',
         label: 'List ID',
         type: 'string',
-        helpText: "Een geldig list_id van je Laposta lijst.",
+        helpText: "De List ID kun je vinden bij de [kenmerken](https://app.laposta.nl/c.listconfig/s.settings/t.config/) van je Laposta lijst (bij 'ID voor API').",
+        placeholder: 'List ID van jouw lijst',
         required: true,
         list: false,
         altersDynamicFields: false,
@@ -40,55 +106,33 @@ module.exports = {
         label: 'Email',
         type: 'string',
         helpText: 'Een geldig e-mail adres van de nieuwe relatie',
+        placeholder: 'E-mail adres',
         required: true,
         list: false,
         altersDynamicFields: false,
       },
+      dynamicInputFields,
+    ],
+    outputFields: [
       {
-        key: 'voornaam',
-        label: 'Voornaam',
+        key: 'email',
+        label: 'Email',
         type: 'string',
-        helpText: 'Voornaam van de nieuwe relatie',
-        required: false,
-        list: false,
-        altersDynamicFields: false,
+        helpText: 'Een geldig e-mail adres van de nieuwe relatie',
+        required: true,
       },
-      {
-        key: 'achternaam',
-        label: 'Achternaam',
-        type: 'string',
-        helpText: 'Achternaam van de nieuwe relatie',
-        required: false,
-        list: false,
-        altersDynamicFields: false,
-      },
+      dynamicOutputFields,
     ],
     sample: {
       member: {
-        member_id: '%member_id%',
         list_id: '%list_id%',
         email: 'test@example.net',
-        state: 'active',
         signup_date: new Date(),
-        modified: null,
-        confirm_date: null,
         ip: '0.0.0.0',
-        source_url: null,
-        custom_fields: { voornaam: 'Voornaam (voorbeeld)', achternaam: 'Achternaam (voorbeeld)' },
+        // custom_fields: { voornaam: 'Voornaam (voorbeeld)', achternaam: 'Achternaam (voorbeeld)' },
       },
     },
-    outputFields: [
-      { key: 'member__member_id' },
-      { key: 'member__list_id' },
-      { key: 'member__email' },
-      { key: 'member__state' },
-      { key: 'member__signup_date' },
-      { key: 'member__modified' },
-      { key: 'member__confirm_date' },
-      { key: 'member__ip' },
-      { key: 'member__source_url' },
-      { key: 'member__custom_fields__voornaam' },
-      { key: 'member__custom_fields__achternaam' },
-    ],
   },
 };
+
+module.exports = AddListMember;
