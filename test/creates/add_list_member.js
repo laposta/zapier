@@ -13,7 +13,12 @@ const randomData = {
   email : Str.random(10) + '@laposta.tester.nl',
   firstname : Str.random(1).toUpperCase() + Str.random(10),
   lastname : 'Tester (' + new Date().toLocaleString('nl-NL','short') + ')',
+  text : 'Lorem ipsum dolor sit amet.',
 };
+
+// describe('Fetch - customfields', () => {
+// });
+
 
 describe('Create - add_list_member', () => {
   zapier.tools.env.inject();
@@ -24,13 +29,17 @@ describe('Create - add_list_member', () => {
         api_key: process.env.API_KEY,
       },
       inputData: {
-        list_id: process.env.LIST_ID,
-        ip: process.env.IP,
-        email: randomData.email,
-        // voornaam: randomData.firstname,
-        achternaam: randomData.lastname,
+        'list_id': process.env.LIST_ID,
+        'ip': process.env.IP,
+        'email': randomData.email,
+        // 'achternaam': randomData.lastname,
+        'custom_fields[voornaam]': randomData.firstname,
+        'custom_fields[opmerkingen]': randomData.text,
+        'custom_fields[datum]': new Date().toISOString(),
+        'custom_fields[kleur]': 'Rood',
       },
     };
+    // console.log('===',bundle);
 
     // // Mock aanmaken van relatie
     // nock('https://api.laposta.nl',{ allowUnmocked: true })
@@ -52,6 +61,9 @@ describe('Create - add_list_member', () => {
       App.creates['add_list_member'].operation.perform,
       bundle
     );
+
+    // console.log('===', result);
+
     result.should.not.be.an.Array();
   });
 });
