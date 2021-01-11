@@ -68,18 +68,47 @@ const AddListMember = {
   key: 'add_list_member',
   noun: 'Relatie',
   display: {
-    label: 'Voeg Relatie Toe',
-    description: 'Voegt een nieuwe relatie aan een bestaande lijst in je Laposta account.',
+    label: 'Toevoegen of Wijzigen Relatie',
+    description: 'Wijzigt een bestaande relatie, of voegt een nieuwe relatie toe, in Laposta lijst.',
     hidden: false,
     important: true,
   },
   operation: {
-    perform: (z, bundle) => {
+    perform: async(z, bundle) => {
       let body     = bundle.inputData;
       body.list_id = bundle.inputData.list_id;
       body.ip      = '0.0.0.0';
-      const promise = z.request({
-        url: 'https://api.laposta.nl/v2/member',
+
+      // First test if relation allready exists
+      const responseCheckIfExists = await z.request({
+        url: 'https://api.laposta.nl/v2/member/'+bundle.inputData.email+'?list_id='+bundle.inputData.list_id,
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Accept: 'application/json',
+        },
+        removeMissingValuesFrom: {},
+      });
+
+      // If not exists, add new relation
+      if (responseCheckIfExists.status==400) {
+        const response = await z.request({
+          url: 'https://api.laposta.nl/v2/member',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Accept: 'application/json',
+          },
+          body: body,
+          removeMissingValuesFrom: {},
+        });
+        return response.data;
+      }
+
+      // Does exist, so change relation
+      let member_id = responseCheckIfExists.data.member.member_id;
+      const response = await z.request({
+        url: 'https://api.laposta.nl/v2/member/'+member_id,
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -88,7 +117,8 @@ const AddListMember = {
         body: body,
         removeMissingValuesFrom: {},
       });
-      return promise.then((response) => response.data);
+      return response.data;
+
     },
     inputFields: [
       {
