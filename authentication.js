@@ -13,7 +13,7 @@ module.exports = {
       key: 'api_key',
       type: 'string',
       required: true,
-      helpText: 'Ga naar [koppelingen](https://app.laposta.nl/config/c.connect/s.api/) om de Api key te vinden bij van jou Laposta account',
+      helpText: 'Ga naar [koppelingen](https://app.laposta.nl/config/c.connect/s.api/) om de Api key te vinden van jou Laposta account',
     },
   ],
   // basicConfig: {},

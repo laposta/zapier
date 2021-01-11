@@ -39,12 +39,12 @@ const convertFields = function(lapostaFields) {
 }
 
 const dynamicInputFields = async (z, bundle) => {
-  z.console.log('Starting dynamicInputFields', bundle.inputData.list_id);
+  // z.console.log('Starting dynamicInputFields', bundle.inputData.list_id);
   const response = await z.request('https://api.laposta.nl/v2/field?list_id='+bundle.inputData.list_id);
   // z.console.log('Response from dynamicInputFields', response);
   if (response.data.data) {
     let customFields = convertFields(response.data.data);
-    z.console.log('Converted fields', response);
+    // z.console.log('Converted fields', response);
     return customFields;
   }
   return [];
@@ -95,11 +95,11 @@ const AddListMember = {
         key: 'list_id',
         label: 'List ID',
         type: 'string',
-        helpText: "De List ID kun je vinden bij de [kenmerken](https://app.laposta.nl/c.listconfig/s.settings/t.config/) van je Laposta lijst (bij 'ID voor API').",
+        helpText: "De List ID kun je vinden bij de kenmerken van je Laposta lijst.",
         placeholder: 'List ID van jouw lijst',
         required: true,
         list: false,
-        altersDynamicFields: false,
+        altersDynamicFields: true,
       },
       {
         key: 'email',
@@ -124,13 +124,15 @@ const AddListMember = {
       dynamicOutputFields,
     ],
     sample: {
-      member: {
-        list_id: '%list_id%',
-        email: 'test@example.net',
-        signup_date: new Date(),
-        ip: '0.0.0.0',
-        // custom_fields: { voornaam: 'Voornaam (voorbeeld)', achternaam: 'Achternaam (voorbeeld)' },
-      },
+      list_id: '%list_id%',
+      email: 'test@example.net',
+      // member: {
+      //   list_id: '%list_id%',
+      //   email: 'test@example.net',
+      //   // signup_date: new Date(),
+      //   // ip: '0.0.0.0',
+      //   // custom_fields: { voornaam: 'Voornaam (voorbeeld)', achternaam: 'Achternaam (voorbeeld)' },
+      // },
     },
   },
 };
