@@ -39,12 +39,12 @@ const convertFields = function(lapostaFields) {
 }
 
 const dynamicInputFields = async (z, bundle) => {
-  z.console.log('Starting dynamicInputFields', bundle.inputData.list_id);
+  // z.console.log('Starting dynamicInputFields', bundle.inputData.list_id);
   const response = await z.request('https://api.laposta.nl/v2/field?list_id='+bundle.inputData.list_id);
   // z.console.log('Response from dynamicInputFields', response);
   if (response.data.data) {
     let customFields = convertFields(response.data.data);
-    z.console.log('Converted fields', response);
+    // z.console.log('Converted fields', response);
     return customFields;
   }
   return [];
@@ -99,7 +99,7 @@ const AddListMember = {
         placeholder: 'List ID van jouw lijst',
         required: true,
         list: false,
-        altersDynamicFields: false,
+        altersDynamicFields: true,
       },
       {
         key: 'email',
