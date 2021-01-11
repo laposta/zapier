@@ -95,7 +95,7 @@ const AddListMember = {
         key: 'list_id',
         label: 'List ID',
         type: 'string',
-        helpText: "De List ID kun je vinden bij de [kenmerken](https://app.laposta.nl/c.listconfig/s.settings/t.config/) van je Laposta lijst (bij 'ID voor API').",
+        helpText: "De List ID kun je vinden bij de kenmerken van je Laposta lijst.",
         placeholder: 'List ID van jouw lijst',
         required: true,
         list: false,
