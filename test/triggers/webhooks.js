@@ -17,10 +17,8 @@ describe('Subscribe Hook', () => {
       },
       inputData: {
         list_id: process.env.LIST_ID,
-        event : 'subscribed',
-        url : process.env.MOCKAPIHOOK,
-        blocked: false,
       },
+      targetUrl : process.env.MOCKAPIHOOK,
     };
 
     appTester(App.triggers['webhooks'].operation.performSubscribe, bundle)
@@ -93,9 +91,8 @@ describe('New relatie trigger (hook)', () => {
     appTester(App.triggers['webhooks'].operation.perform, bundle)
       .then(results => {
         results.length.should.eql(1);
-        const firstRecipe = results[0];
-        firstRecipe.data.should.be.an.Array();
-        cleanedRequest = firstRecipe.data;
+        results.should.be.an.Array();
+        cleanedRequest = results[0];
         done();
       })
       .catch(done);
@@ -103,27 +100,25 @@ describe('New relatie trigger (hook)', () => {
 
 });
 
-// describe('Load relatie after hook', () => {
-//   zapier.tools.env.inject();
+describe('Load relaties after hook', () => {
+  zapier.tools.env.inject();
 
-//   it('should load relatie', done => {
-//     const bundle = {
-//       authData: {
-//         api_key: process.env.API_KEY,
-//       },
-//       inputData: cleanedRequest,
-//     };
+  it('should load relatie', done => {
+    const bundle = {
+      authData: {
+        api_key: process.env.API_KEY,
+      },
+      inputData: {
+        list_id : process.env.LIST_ID,
+      },
+    };
 
-//     console.log(bundle.inputData);
+    appTester(App.triggers['webhooks'].operation.performList, bundle)
+      .then(result => {
+        result.should.be.an.Array();
+        done();
+      })
+      .catch(done);
+  });
 
-//     appTester(App.triggers['webhooks'].operation.performSubscribe, bundle)
-//       .then(results => {
-//         console.log(results);
-//         // results.webhook.should.be.an.Object();
-//         // subscribeData = results;
-//         done();
-//       })
-//       .catch(done);
-//   });
-
-// });
+});

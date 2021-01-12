@@ -1,20 +1,19 @@
 // Triggers voor de Laposta webhooks voor als er een nieuwe relatie is aangemeld.
 
-// Onthoud resultaat van de hook
-let cleanedRequest = {};
-
-
 // Maak de hook aan (bij Laposta)
 const subscribeHook = (z, bundle) => {
-  const url = 'https://api.laposta.nl/v2/webhook';
+  const data = bundle.inputData;
+  data.url = bundle.targetUrl;
+  data.event = 'subscribed';
+  data.blocked = false;
   const options = {
-    url: url,
+    url: 'https://api.laposta.nl/v2/webhook',
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       Accept: 'application/json',
     },
-    body: bundle.inputData,
+    body: data,
   };
   return z.request(options).then((response) => response.data);
 };
@@ -38,14 +37,14 @@ const unsubscribeHook = (z, bundle) => {
 const getRelation = (z, bundle) => {
   // bundle.cleanedRequest will include the parsed JSON object (if it's not a
   // test poll) and also a .querystring property with the URL's query string.
-  cleanedRequest = bundle.cleanedRequest
-  return [cleanedRequest];
+  let data = bundle.cleanedRequest.data[0].data;
+  return [data];
 };
 
-// Een fallback aanroep die een relatie opvraagt
+
+// Een fallback aanroep die alle relaties opvraagt
 const getFallbackRelation = (z, bundle) => {
-  // For the test poll, you should get some real data, to aid the setup process.
-  const url = 'https://api.laposta.nl/v2/member/'+bundle.inputData.member_id+'?list_id='+bundle.inputData.list_id;
+  const url = 'https://api.laposta.nl/v2/member?list_id='+bundle.inputData.list_id;
   const options = {
     url: url,
     method: 'GET',
@@ -54,7 +53,10 @@ const getFallbackRelation = (z, bundle) => {
       Accept: 'application/json',
     },
   };
-  return z.request(options).then((response) => response.data);
+  return z.request(options).then(function(response) {
+    let data = response.data.data.map(m => m.member);
+    return data;
+  });
 };
 
 
@@ -74,11 +76,18 @@ const webhooks = {
     performSubscribe: subscribeHook,
     performUnsubscribe: unsubscribeHook,
     performList: getFallbackRelation,
-    sample: {
-      sample: {
-        email: 'test@example.net',
+    inputFields: [
+      {
+        key: 'list_id',
+        label: 'List ID',
+        type: 'string',
+        helpText: "De List ID kun je vinden bij de kenmerken van je Laposta lijst.",
+        placeholder: 'List ID van jouw lijst',
+        required: true,
+        list: false,
+        altersDynamicFields: true,
       },
-    }
+    ],
   },
 };
 
