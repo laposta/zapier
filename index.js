@@ -2,7 +2,7 @@ const addApiKeyToHeader = require('./request_headers.js');
 const responseErrorHandling = require('./response_errors.js');
 
 const authentication = require('./authentication');
-const webhooks = require('./triggers/webhooks.js');
+const addedRelationHook = require('./triggers/addedRelationHook.js');
 const addListMemberCreate = require('./creates/add_list_member.js');
 
 // Main Zapier App
@@ -15,7 +15,7 @@ const App = {
   afterResponse:[responseErrorHandling],
 
   triggers: {
-    [webhooks.key]: webhooks
+    [addedRelationHook.key]: addedRelationHook
   },
 
   creates: {
