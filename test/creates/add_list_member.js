@@ -17,49 +17,49 @@ const randomData = {
 };
 
 
-// describe('Create - add_list_member', () => {
-//   zapier.tools.env.inject();
+describe('Create - add_list_member', () => {
+  zapier.tools.env.inject();
 
-//   it('should create an object', async () => {
-//     const bundle = {
-//       authData: {
-//         api_key: process.env.API_KEY,
-//       },
-//       inputData: {
-//         'list_id': process.env.LIST_ID,
-//         'ip': process.env.IP,
-//         'email': randomData.email,
-//         // 'achternaam': randomData.lastname,
-//         'custom_fields[voornaam]': randomData.firstname,
-//         'custom_fields[opmerkingen]': randomData.text,
-//         'custom_fields[datum]': new Date().toISOString(),
-//         'custom_fields[kleur]': 'Rood',
-//       },
-//     };
+  it('should create an object', async () => {
+    const bundle = {
+      authData: {
+        api_key: process.env.API_KEY,
+      },
+      inputData: {
+        'list_id': process.env.LIST_ID,
+        'ip': process.env.IP,
+        'email': randomData.email,
+        // 'achternaam': randomData.lastname,
+        'custom_fields[voornaam]': randomData.firstname,
+        'custom_fields[opmerkingen]': randomData.text,
+        'custom_fields[datum]': new Date().toISOString(),
+        'custom_fields[kleur]': 'Rood',
+      },
+    };
 
-//     // // Mock aanmaken van relatie
-//     // nock('https://api.laposta.nl',{ allowUnmocked: true })
-//     //   .post('/v2/member')
-//     //   .reply(201, {
-//     //   });
+    // // Mock aanmaken van relatie
+    // nock('https://api.laposta.nl',{ allowUnmocked: true })
+    //   .post('/v2/member')
+    //   .reply(201, {
+    //   });
 
-//     // // Mock opvragen van velden
-//     // nock('https://api.laposta.nl')
-//     //   .get('/v2/field')
-//     //   .query({'list_id':process.env.LIST_ID})
-//     //   .reply(200, [
-//     //     { "field": { "field_id": "0VDupMQ9ND","list_id": "kyxitprvp9","created": "2020-11-16 09:24:24","modified": null,"state": "active","name": "E-mailadres","tag": "{{email}}","custom_name": null,"defaultvalue": "","datatype": "text","datatype_display": null,"pos": "0","required": true,"in_form": true,"in_list": true,"is_email": true } },
-//     //     { "field": { "field_id": "KHPrOIZi4n", "list_id": "kyxitprvp9", "created": "2020-11-16 09:24:24", "modified": null, "state": "active", "name": "Voornaam", "tag": "{{voornaam}}", "custom_name": "voornaam", "defaultvalue": "", "datatype": "text", "datatype_display": null, "pos": "1", "required": false, "in_form": true, "in_list": true, "is_email": false } },
-//     //     { "field": { "field_id": "NbbAKAMtDD", "list_id": "kyxitprvp9", "created": "2020-11-16 09:24:24", "modified": null, "state": "active", "name": "Achternaam", "tag": "{{achternaam}}", "custom_name": "achternaam", "defaultvalue": "", "datatype": "text", "datatype_display": null, "pos": "2", "required": false, "in_form": true, "in_list": true, "is_email": false } }
-//     //   ]);
+    // // Mock opvragen van velden
+    // nock('https://api.laposta.nl')
+    //   .get('/v2/field')
+    //   .query({'list_id':process.env.LIST_ID})
+    //   .reply(200, [
+    //     { "field": { "field_id": "0VDupMQ9ND","list_id": "kyxitprvp9","created": "2020-11-16 09:24:24","modified": null,"state": "active","name": "E-mailadres","tag": "{{email}}","custom_name": null,"defaultvalue": "","datatype": "text","datatype_display": null,"pos": "0","required": true,"in_form": true,"in_list": true,"is_email": true } },
+    //     { "field": { "field_id": "KHPrOIZi4n", "list_id": "kyxitprvp9", "created": "2020-11-16 09:24:24", "modified": null, "state": "active", "name": "Voornaam", "tag": "{{voornaam}}", "custom_name": "voornaam", "defaultvalue": "", "datatype": "text", "datatype_display": null, "pos": "1", "required": false, "in_form": true, "in_list": true, "is_email": false } },
+    //     { "field": { "field_id": "NbbAKAMtDD", "list_id": "kyxitprvp9", "created": "2020-11-16 09:24:24", "modified": null, "state": "active", "name": "Achternaam", "tag": "{{achternaam}}", "custom_name": "achternaam", "defaultvalue": "", "datatype": "text", "datatype_display": null, "pos": "2", "required": false, "in_form": true, "in_list": true, "is_email": false } }
+    //   ]);
 
-//     const result = await appTester(
-//       App.creates['add_list_member'].operation.perform,
-//       bundle
-//     );
+    const result = await appTester(
+      App.creates['add_list_member'].operation.perform,
+      bundle
+    );
 
-//     // console.log('===', result);
+    // console.log('===', result);
 
-//     result.should.not.be.an.Array();
-//   });
-// });
+    result.should.not.be.an.Array();
+  });
+});
