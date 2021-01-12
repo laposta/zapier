@@ -124,13 +124,15 @@ const AddListMember = {
       dynamicOutputFields,
     ],
     sample: {
-      member: {
-        list_id: '%list_id%',
-        email: 'test@example.net',
-        signup_date: new Date(),
-        ip: '0.0.0.0',
-        // custom_fields: { voornaam: 'Voornaam (voorbeeld)', achternaam: 'Achternaam (voorbeeld)' },
-      },
+      list_id: '%list_id%',
+      email: 'test@example.net',
+      // member: {
+      //   list_id: '%list_id%',
+      //   email: 'test@example.net',
+      //   // signup_date: new Date(),
+      //   // ip: '0.0.0.0',
+      //   // custom_fields: { voornaam: 'Voornaam (voorbeeld)', achternaam: 'Achternaam (voorbeeld)' },
+      // },
     },
   },
 };
