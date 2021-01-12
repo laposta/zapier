@@ -58,8 +58,8 @@ const webhooks = {
   key: 'webhooks',
   noun: 'Relatie',
   display: {
-    label: 'Een Nieuwe Relatie is Toegevoegd',
-    description: 'Een nieuwe relatie is toegevoegd aan je lijst in je Laposta account.',
+    label: 'Een Nieuwe Relatie Is Toegevoegd',
+    description: 'Triggers when een nieuwe relatie is toegevoegd aan je lijst in je Laposta account.',
     hidden: false,
     important: true,
   },
