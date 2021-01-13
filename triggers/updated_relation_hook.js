@@ -1,3 +1,9 @@
+/*
+
+  Handles webhook when a relation has been updated
+
+ */
+
 const hook = require('./hooks_main.js');
 
 module.exports = hook.create({

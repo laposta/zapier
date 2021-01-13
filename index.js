@@ -12,8 +12,8 @@ const authentication = require('./authentication');
 const upsertRelation = require('./creates/upsert_relation.js');
 
 // triggers
-const addedRelationHook = require('./triggers/addedRelationHook.js');
-const updatedRelationHook = require('./triggers/updatedRelationHook.js');
+const createdRelationHook = require('./triggers/created_relation_hook.js');
+const updatedRelationHook = require('./triggers/updated_relation_hook.js');
 
 
 const App = {
@@ -25,7 +25,7 @@ const App = {
   afterResponse:[responseErrorHandling],
 
   triggers: {
-    [addedRelationHook.key]: addedRelationHook,
+    [createdRelationHook.key]: createdRelationHook,
     [updatedRelationHook.key]: updatedRelationHook,
   },
 

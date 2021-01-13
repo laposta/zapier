@@ -21,7 +21,7 @@ describe('Subscribe Hook', () => {
       targetUrl : process.env.MOCKAPIHOOK,
     };
 
-    appTester(App.triggers['addedRelationHook'].operation.performSubscribe, bundle)
+    appTester(App.triggers['createdRelationHook'].operation.performSubscribe, bundle)
       .then(results => {
         results.webhook.should.be.an.Object();
         subscribeData = results;
@@ -42,7 +42,7 @@ describe('Unsubscribe Hook', () => {
       },
       subscribeData : subscribeData,
     };
-    appTester(App.triggers['addedRelationHook'].operation.performUnsubscribe, bundle)
+    appTester(App.triggers['createdRelationHook'].operation.performUnsubscribe, bundle)
       .then(results => {
         results.webhook.should.be.an.Object();
         results.webhook.webhook_id.should.equal(subscribeData.webhook.webhook_id);
@@ -88,7 +88,7 @@ describe('New relatie trigger (hook)', () => {
       },
     };
 
-    appTester(App.triggers['addedRelationHook'].operation.perform, bundle)
+    appTester(App.triggers['createdRelationHook'].operation.perform, bundle)
       .then(results => {
         results.length.should.eql(1);
         results.should.be.an.Array();
@@ -113,7 +113,7 @@ describe('Load relaties after hook', () => {
       },
     };
 
-    appTester(App.triggers['addedRelationHook'].operation.performList, bundle)
+    appTester(App.triggers['createdRelationHook'].operation.performList, bundle)
       .then(result => {
         result.should.be.an.Array();
         done();

@@ -1,6 +1,21 @@
+/*
+
+  Main hook. All hooks inherit this. Differences set with settings:
+
+  key           - Zap key,
+  label         - Zap label
+  description   - Zap description
+  event         - Laposta hook type 'subscribed|modified|deactivated',
+
+ */
+
+
 module.exports = {
 
-  // Maak de hook aan (bij Laposta)
+
+/*
+  Add hook to Laposta list
+ */
   subscribeHook(event) {
     return (z, bundle) => {
       const data = bundle.inputData;
@@ -20,7 +35,10 @@ module.exports = {
     };
   },
 
-  // Verwijder de hook (bij Laposta)
+
+/*
+  Remove hook from Laposta list
+ */
   unsubscribeHook() {
     return (z, bundle) => {
       const hookId = bundle.subscribeData.webhook.webhook_id;
@@ -38,7 +56,9 @@ module.exports = {
   },
 
 
-  // Hier komt de hook binnen (een nieuwe relatie is aangemaakt)
+/*
+  Handles the hook itself (hook returns with data)
+ */
   getRelation() {
     return (z, bundle) => {
       // bundle.cleanedRequest will include the parsed JSON object (if it's not a
@@ -48,7 +68,9 @@ module.exports = {
     };
   },
 
-  // Een fallback aanroep die alle relaties opvraagt
+/*
+  Fallback for retrieving relations from the Laposta list
+ */
   getFallbackRelation() {
     return (z, bundle) => {
       const url = 'https://api.laposta.nl/v2/member?list_id='+bundle.inputData.list_id;
@@ -67,7 +89,12 @@ module.exports = {
     };
   },
 
-  // Main
+
+/*
+
+  Hook is created here, with settings.
+
+ */
   create(settings) {
     let self = this;
     return {
