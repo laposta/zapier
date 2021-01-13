@@ -1,3 +1,14 @@
+/*
+
+  Handles creating and updating (upserting) relations on a Laposta list
+
+ */
+
+
+
+/*
+  Converts Laposta fields to Zap fields
+ */
 const convertFields = function(lapostaFields) {
   let zapierFields = lapostaFields.map( e => {
     let field = e.field;
@@ -38,47 +49,54 @@ const convertFields = function(lapostaFields) {
   return zapierFields;
 }
 
+/*
+  Fetch input fields
+ */
 const dynamicInputFields = async (z, bundle) => {
-  // z.console.log('Starting dynamicInputFields', bundle.inputData.list_id);
   const response = await z.request('https://api.laposta.nl/v2/field?list_id='+bundle.inputData.list_id);
-  // z.console.log('Response from dynamicInputFields', response);
   if (response.data.data) {
     let customFields = convertFields(response.data.data);
-    // z.console.log('Converted fields', response);
     return customFields;
   }
   return [];
 }
 
+/*
+  Fetch output fields
+ */
 const dynamicOutputFields = async (z, bundle) => {
-  // z.console.log('Starting dynamicOutputFields', bundle.inputData.list_id);
   const response = await z.request('https://api.laposta.nl/v2/field?list_id='+bundle.inputData.list_id);
-  // z.console.log('Response from dynamicOutputFields', response);
   if (response.data.data) {
     let customFields = convertFields(response.data.data);
-    // z.console.log('Converted fields', response);
     return customFields;
   }
   return [];
 }
 
 
-// Main
-const AddListMember = {
-  key: 'add_list_member',
+/*
+  Main module
+ */
+module.exports = {
+
+  key: 'upsertRelation',
   noun: 'Relatie',
   display: {
-    label: 'Voeg Relatie Toe',
-    description: 'Voegt een nieuwe relatie aan een bestaande lijst in je Laposta account.',
+    label: 'Toevoegen of Wijzigen Relatie',
+    description: 'Wijzigt een bestaande relatie, of voegt een nieuwe relatie toe, in Laposta lijst.',
     hidden: false,
     important: true,
   },
+
   operation: {
-    perform: (z, bundle) => {
+
+    perform: async(z, bundle) => {
       let body     = bundle.inputData;
       body.list_id = bundle.inputData.list_id;
       body.ip      = '0.0.0.0';
-      const promise = z.request({
+      body['options[upsert]'] = true;
+
+      const response = await z.request({
         url: 'https://api.laposta.nl/v2/member',
         method: 'POST',
         headers: {
@@ -88,8 +106,9 @@ const AddListMember = {
         body: body,
         removeMissingValuesFrom: {},
       });
-      return promise.then((response) => response.data);
+      return response.data;
     },
+
     inputFields: [
       {
         key: 'list_id',
@@ -113,6 +132,7 @@ const AddListMember = {
       },
       dynamicInputFields,
     ],
+
     outputFields: [
       {
         key: 'email',
@@ -123,18 +143,10 @@ const AddListMember = {
       },
       dynamicOutputFields,
     ],
+
     sample: {
       list_id: '%list_id%',
       email: 'test@example.net',
-      // member: {
-      //   list_id: '%list_id%',
-      //   email: 'test@example.net',
-      //   // signup_date: new Date(),
-      //   // ip: '0.0.0.0',
-      //   // custom_fields: { voornaam: 'Voornaam (voorbeeld)', achternaam: 'Achternaam (voorbeeld)' },
-      // },
     },
   },
 };
-
-module.exports = AddListMember;
