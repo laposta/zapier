@@ -1,7 +1,7 @@
 {
   "name": "la-posta",
-  "version": "1.0.3",
-  "description": "Voeg relatie toe aan LaPosta email-lijst",
+  "version": "1.0.4",
+  "description": "Beheer relaties binnen Laposta",
   "main": "index.js",
   "scripts": {
     "test": "mocha --recursive -t 10000"
