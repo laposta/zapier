@@ -1,7 +1,7 @@
 const addApiKeyToHeader = require('./request_headers.js');
 const responseErrorHandling = require('./response_errors.js');
 const authentication = require('./authentication');
-const addListMemberCreate = require('./creates/add_list_member.js');
+const upsertRelation = require('./creates/upsertRelation.js');
 
 
 // Main Zapier App
@@ -17,7 +17,7 @@ const App = {
   },
 
   creates: {
-    [addListMemberCreate.key]: addListMemberCreate
+    [upsertRelation.key]: upsertRelation
   },
 
   resources: {

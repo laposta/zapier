@@ -39,9 +39,7 @@ const convertFields = function(lapostaFields) {
 }
 
 const dynamicInputFields = async (z, bundle) => {
-  // z.console.log('Starting dynamicInputFields', bundle.inputData.list_id);
   const response = await z.request('https://api.laposta.nl/v2/field?list_id='+bundle.inputData.list_id);
-  // z.console.log('Response from dynamicInputFields', response);
   if (response.data.data) {
     let customFields = convertFields(response.data.data);
     // z.console.log('Converted fields', response);
@@ -51,9 +49,7 @@ const dynamicInputFields = async (z, bundle) => {
 }
 
 const dynamicOutputFields = async (z, bundle) => {
-  // z.console.log('Starting dynamicOutputFields', bundle.inputData.list_id);
   const response = await z.request('https://api.laposta.nl/v2/field?list_id='+bundle.inputData.list_id);
-  // z.console.log('Response from dynamicOutputFields', response);
   if (response.data.data) {
     let customFields = convertFields(response.data.data);
     // z.console.log('Converted fields', response);
@@ -64,8 +60,8 @@ const dynamicOutputFields = async (z, bundle) => {
 
 
 // Main
-const AddListMember = {
-  key: 'add_list_member',
+module.exports = {
+  key: 'upsertRelation',
   noun: 'Relatie',
   display: {
     label: 'Toevoegen of Wijzigen Relatie',
@@ -78,37 +74,10 @@ const AddListMember = {
       let body     = bundle.inputData;
       body.list_id = bundle.inputData.list_id;
       body.ip      = '0.0.0.0';
+      body['options[upsert]'] = true;
 
-      // First test if relation allready exists
-      const responseCheckIfExists = await z.request({
-        url: 'https://api.laposta.nl/v2/member/'+bundle.inputData.email+'?list_id='+bundle.inputData.list_id,
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          Accept: 'application/json',
-        },
-        removeMissingValuesFrom: {},
-      });
-
-      // If not exists, add new relation
-      if (responseCheckIfExists.status==400) {
-        const response = await z.request({
-          url: 'https://api.laposta.nl/v2/member',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            Accept: 'application/json',
-          },
-          body: body,
-          removeMissingValuesFrom: {},
-        });
-        return response.data;
-      }
-
-      // Does exist, so change relation
-      let member_id = responseCheckIfExists.data.member.member_id;
       const response = await z.request({
-        url: 'https://api.laposta.nl/v2/member/'+member_id,
+        url: 'https://api.laposta.nl/v2/member',
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -118,7 +87,6 @@ const AddListMember = {
         removeMissingValuesFrom: {},
       });
       return response.data;
-
     },
     inputFields: [
       {
@@ -156,15 +124,6 @@ const AddListMember = {
     sample: {
       list_id: '%list_id%',
       email: 'test@example.net',
-      // member: {
-      //   list_id: '%list_id%',
-      //   email: 'test@example.net',
-      //   // signup_date: new Date(),
-      //   // ip: '0.0.0.0',
-      //   // custom_fields: { voornaam: 'Voornaam (voorbeeld)', achternaam: 'Achternaam (voorbeeld)' },
-      // },
     },
   },
 };
-
-module.exports = AddListMember;
