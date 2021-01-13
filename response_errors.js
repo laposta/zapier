@@ -1,4 +1,10 @@
-// Custom response errors
+/*
+
+  Handles request errors
+
+ */
+
+
 const responseStatusErrors = [
   { 'status':400,'message':'Input is niet compleet'},
   { 'status':401,'message':'Geen geldige API key'},
@@ -7,6 +13,7 @@ const responseStatusErrors = [
   { 'status':429,'message':'Maximale aanvragen is bereikt, probeer het later nog eens.'},
   { 'status':500,'message':'Server error'},
 ];
+
 const responseErrors = [
   { 'code':201,'message':'%param% is leeg'},
   { 'code':202,'message':'De syntax van %param% is niet correct'},
@@ -20,7 +27,9 @@ const responseErrors = [
   { 'code':999,'message':'%param% bevat een onbekende fout'},
 ];
 
-const responseErrorHandling = (response, z, bundle) => {
+
+
+module.exports = (response, z, bundle) => {
   let message = false;
   // input errors
   if (response.data.error) {
@@ -52,5 +61,3 @@ const responseErrorHandling = (response, z, bundle) => {
   response.throwForStatus();
   return response;
 };
-
-module.exports = responseErrorHandling;
