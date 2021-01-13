@@ -4,11 +4,16 @@
 
  */
 
-
 const addApiKeyToHeader = require('./request_headers.js');
 const responseErrorHandling = require('./response_errors.js');
 const authentication = require('./authentication');
+
+// creates
 const upsertRelation = require('./creates/upsert_relation.js');
+
+// triggers
+const createdRelationHook = require('./triggers/created_relation_hook.js');
+const updatedRelationHook = require('./triggers/updated_relation_hook.js');
 
 
 const App = {
@@ -20,6 +25,8 @@ const App = {
   afterResponse:[responseErrorHandling],
 
   triggers: {
+    [createdRelationHook.key]: createdRelationHook,
+    [updatedRelationHook.key]: updatedRelationHook,
   },
 
   creates: {
