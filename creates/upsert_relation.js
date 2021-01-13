@@ -1,3 +1,14 @@
+/*
+
+  Handles creating and updating (upserting) relations on a Laposta list
+
+ */
+
+
+
+/*
+  Converts Laposta fields to Zap fields
+ */
 const convertFields = function(lapostaFields) {
   let zapierFields = lapostaFields.map( e => {
     let field = e.field;
@@ -38,29 +49,36 @@ const convertFields = function(lapostaFields) {
   return zapierFields;
 }
 
+/*
+  Fetch input fields
+ */
 const dynamicInputFields = async (z, bundle) => {
   const response = await z.request('https://api.laposta.nl/v2/field?list_id='+bundle.inputData.list_id);
   if (response.data.data) {
     let customFields = convertFields(response.data.data);
-    // z.console.log('Converted fields', response);
     return customFields;
   }
   return [];
 }
 
+/*
+  Fetch output fields
+ */
 const dynamicOutputFields = async (z, bundle) => {
   const response = await z.request('https://api.laposta.nl/v2/field?list_id='+bundle.inputData.list_id);
   if (response.data.data) {
     let customFields = convertFields(response.data.data);
-    // z.console.log('Converted fields', response);
     return customFields;
   }
   return [];
 }
 
 
-// Main
+/*
+  Main module
+ */
 module.exports = {
+
   key: 'upsertRelation',
   noun: 'Relatie',
   display: {
@@ -69,7 +87,9 @@ module.exports = {
     hidden: false,
     important: true,
   },
+
   operation: {
+
     perform: async(z, bundle) => {
       let body     = bundle.inputData;
       body.list_id = bundle.inputData.list_id;
@@ -88,6 +108,7 @@ module.exports = {
       });
       return response.data;
     },
+
     inputFields: [
       {
         key: 'list_id',
@@ -111,6 +132,7 @@ module.exports = {
       },
       dynamicInputFields,
     ],
+
     outputFields: [
       {
         key: 'email',
@@ -121,6 +143,7 @@ module.exports = {
       },
       dynamicOutputFields,
     ],
+
     sample: {
       list_id: '%list_id%',
       email: 'test@example.net',

@@ -1,10 +1,16 @@
+/*
+
+  Main Zap
+
+ */
+
+
 const addApiKeyToHeader = require('./request_headers.js');
 const responseErrorHandling = require('./response_errors.js');
 const authentication = require('./authentication');
-const upsertRelation = require('./creates/upsertRelation.js');
+const upsertRelation = require('./creates/upsert_relation.js');
 
 
-// Main Zapier App
 const App = {
   version: require('./package.json').version,
   platformVersion: require('zapier-platform-core').version,
