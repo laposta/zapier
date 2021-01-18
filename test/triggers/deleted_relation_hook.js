@@ -7,7 +7,7 @@ const appTester = zapier.createAppTester(App);
 let subscribeData = {};
 let cleanedRequest = {};
 
-describe('TRIGGER Subscribe Update Hook', () => {
+describe('TRIGGER - Subscribe Delete Hook', () => {
   zapier.tools.env.inject();
 
   it('should return webhook object', done => {
@@ -21,7 +21,7 @@ describe('TRIGGER Subscribe Update Hook', () => {
       targetUrl : process.env.MOCKAPIHOOK,
     };
 
-    appTester(App.triggers['updatedRelationHook'].operation.performSubscribe, bundle)
+    appTester(App.triggers['deletedRelationHook'].operation.performSubscribe, bundle)
       .then(results => {
         results.webhook.should.be.an.Object();
         subscribeData = results;
@@ -32,7 +32,7 @@ describe('TRIGGER Subscribe Update Hook', () => {
 
 });
 
-describe('TRIGGER Unsubscribe Update Hook', () => {
+describe('TRIGGER - Unsubscribe Delete Hook', () => {
   zapier.tools.env.inject();
 
   it('should return webhook object', done => {
@@ -42,7 +42,7 @@ describe('TRIGGER Unsubscribe Update Hook', () => {
       },
       subscribeData : subscribeData,
     };
-    appTester(App.triggers['updatedRelationHook'].operation.performUnsubscribe, bundle)
+    appTester(App.triggers['deletedRelationHook'].operation.performUnsubscribe, bundle)
       .then(results => {
         results.webhook.should.be.an.Object();
         results.webhook.webhook_id.should.equal(subscribeData.webhook.webhook_id);
@@ -55,7 +55,7 @@ describe('TRIGGER Unsubscribe Update Hook', () => {
 });
 
 
-describe('TRIGGER Updated relatie trigger update (hook)', () => {
+describe('TRIGGER - Updated delete trigger (hook)', () => {
   zapier.tools.env.inject();
 
   it('should load relatie from hook', done => {
@@ -64,7 +64,7 @@ describe('TRIGGER Updated relatie trigger update (hook)', () => {
         "data": [
             {
                 "type": "member",
-                "event": "modified",
+                "event": "deactivated",
                 "data": {
                     "member_id": "9978ydioiZ",
                     "list_id": process.env.LIST_ID,
@@ -88,7 +88,7 @@ describe('TRIGGER Updated relatie trigger update (hook)', () => {
       },
     };
 
-    appTester(App.triggers['updatedRelationHook'].operation.perform, bundle)
+    appTester(App.triggers['deletedRelationHook'].operation.perform, bundle)
       .then(results => {
         results.length.should.eql(1);
         results.should.be.an.Array();
@@ -100,7 +100,7 @@ describe('TRIGGER Updated relatie trigger update (hook)', () => {
 
 });
 
-describe('TRIGGER Load relaties after update hook', () => {
+describe('TRIGGER - Load relaties after delete hook', () => {
   zapier.tools.env.inject();
 
   it('should load relatie', done => {
@@ -113,7 +113,7 @@ describe('TRIGGER Load relaties after update hook', () => {
       },
     };
 
-    appTester(App.triggers['updatedRelationHook'].operation.performList, bundle)
+    appTester(App.triggers['deletedRelationHook'].operation.performList, bundle)
       .then(result => {
         result.should.be.an.Array();
         done();

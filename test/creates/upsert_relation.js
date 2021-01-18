@@ -16,7 +16,7 @@ const randomData = {
   text : 'Lorem ipsum dolor sit amet.',
 };
 
-describe('Create - Relation', () => {
+describe('UPSERT Create relation', () => {
   zapier.tools.env.inject();
 
   it('should create an object', async () => {
@@ -65,7 +65,7 @@ describe('Create - Relation', () => {
   });
 });
 
-describe('Update - Relation', () => {
+describe('UPSERT - Update relation', () => {
   zapier.tools.env.inject();
 
   it('should create an object', async () => {
