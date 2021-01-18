@@ -40,6 +40,33 @@ describe('POST Create list', () => {
   });
 });
 
+describe('POST Update list', () => {
+  zapier.tools.env.inject();
+
+  it('should create an object', async () => {
+    const bundle = {
+      authData: {
+        api_key: process.env.API_KEY,
+      },
+      inputData: {
+        'list_id' : created_list_id,
+        'name': randomData.name+' 2',
+        'remarks': 'UPDATED',
+        'ip': process.env.IP,
+      },
+    };
+
+    const result = await appTester(
+      App.creates['updateList'].operation.perform,
+      bundle
+    );
+
+    created_list_id = result.list.list_id;
+
+    result.should.not.be.an.Array();
+  });
+});
+
 
 
 describe('DELETE Delete list', () => {
