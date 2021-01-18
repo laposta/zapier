@@ -62,7 +62,7 @@ module.exports = {
       {
         key: 'subscribe_notification_email',
         label: 'Aanmeld Notificatie Email',
-        type: 'email',
+        type: 'string',
         helpText: 'Eventueel emailadres waar notificaties van een nieuwe relatie op deze lijst naar worden gestuurd.',
         placeholder: 'Aanmeld notificatie e-mail',
         required: false,
@@ -72,7 +72,7 @@ module.exports = {
       {
         key: 'unsubscribe_notification_email',
         label: 'Afmeld Notificatie Email',
-        type: 'email',
+        type: 'string',
         helpText: 'Eventueel emailadres waar notificaties van het afmelden van een relatie op deze lijst naar worden gestuurd.',
         placeholder: 'Afmeld notificatie e-mail',
         required: false,
