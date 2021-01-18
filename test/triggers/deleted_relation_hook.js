@@ -7,7 +7,7 @@ const appTester = zapier.createAppTester(App);
 let subscribeData = {};
 let cleanedRequest = {};
 
-describe('Subscribe Delete Hook', () => {
+describe('TRIGGER - Subscribe Delete Hook', () => {
   zapier.tools.env.inject();
 
   it('should return webhook object', done => {
@@ -32,7 +32,7 @@ describe('Subscribe Delete Hook', () => {
 
 });
 
-describe('Unsubscribe Delete Hook', () => {
+describe('TRIGGER - Unsubscribe Delete Hook', () => {
   zapier.tools.env.inject();
 
   it('should return webhook object', done => {
@@ -55,7 +55,7 @@ describe('Unsubscribe Delete Hook', () => {
 });
 
 
-describe('Updated delete trigger (hook)', () => {
+describe('TRIGGER - Updated delete trigger (hook)', () => {
   zapier.tools.env.inject();
 
   it('should load relatie from hook', done => {
@@ -100,7 +100,7 @@ describe('Updated delete trigger (hook)', () => {
 
 });
 
-describe('Load relaties after delete hook', () => {
+describe('TRIGGER - Load relaties after delete hook', () => {
   zapier.tools.env.inject();
 
   it('should load relatie', done => {

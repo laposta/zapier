@@ -1,6 +1,6 @@
 {
   "name": "la-posta",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Beheer relaties binnen Laposta",
   "main": "index.js",
   "scripts": {
