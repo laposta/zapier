@@ -5,7 +5,7 @@ const zapier = require('zapier-platform-core');
 const App = require('../index');
 const appTester = zapier.createAppTester(App);
 
-describe('Test Authentication', () => {
+describe('AUTHENTICATION - Test', () => {
   zapier.tools.env.inject();
 
   it('should return no 401', async () => {

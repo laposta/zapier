@@ -7,7 +7,8 @@ const appTester = zapier.createAppTester(App);
 let subscribeData = {};
 let cleanedRequest = {};
 
-describe('TRIGGER Subscribe Update Hook', () => {
+
+describe('TRIGGER - Subscribe Delete Hook', () => {
   zapier.tools.env.inject();
 
   it('should return webhook object', done => {
@@ -21,7 +22,7 @@ describe('TRIGGER Subscribe Update Hook', () => {
       targetUrl : process.env.MOCKAPIHOOK,
     };
 
-    appTester(App.triggers['updatedRelationHook'].operation.performSubscribe, bundle)
+    appTester(App.triggers['deletedRelationHook'].operation.performSubscribe, bundle)
       .then(results => {
         results.webhook.should.be.an.Object();
         subscribeData = results;
@@ -32,7 +33,7 @@ describe('TRIGGER Subscribe Update Hook', () => {
 
 });
 
-describe('TRIGGER Unsubscribe Update Hook', () => {
+describe('TRIGGER - Unsubscribe Delete Hook', () => {
   zapier.tools.env.inject();
 
   it('should return webhook object', done => {
@@ -42,7 +43,7 @@ describe('TRIGGER Unsubscribe Update Hook', () => {
       },
       subscribeData : subscribeData,
     };
-    appTester(App.triggers['updatedRelationHook'].operation.performUnsubscribe, bundle)
+    appTester(App.triggers['deletedRelationHook'].operation.performUnsubscribe, bundle)
       .then(results => {
         results.webhook.should.be.an.Object();
         results.webhook.webhook_id.should.equal(subscribeData.webhook.webhook_id);
@@ -55,7 +56,7 @@ describe('TRIGGER Unsubscribe Update Hook', () => {
 });
 
 
-describe('TRIGGER Updated relatie trigger update (hook)', () => {
+describe('TRIGGER - Updated delete trigger (hook)', () => {
   zapier.tools.env.inject();
 
   it('should load relatie from hook', done => {
@@ -64,7 +65,7 @@ describe('TRIGGER Updated relatie trigger update (hook)', () => {
         "data": [
             {
                 "type": "member",
-                "event": "modified",
+                "event": "deactivated",
                 "data": {
                     "member_id": "9978ydioiZ",
                     "list_id": process.env.LIST_ID,
@@ -82,17 +83,38 @@ describe('TRIGGER Updated relatie trigger update (hook)', () => {
                     "action": "subscribed",
                     "date_event": "2012-08-17 20:56:31",
                 }
+            },
+            {
+                "type": "member",
+                "event": "deactivated",
+                "data": {
+                    "member_id": "test_2",
+                    "list_id": process.env.LIST_ID,
+                    "email": "test2@example.net",
+                    "state": "deleted",
+                    "signup_date": "2012-08-13 16:13:07",
+                    "ip": process.env.IP,
+                    "source_url": "http://example.com",
+                    "custom_fields": {
+                        "voornaam": "Voornaam Twee",
+                    }
+                },
+                "info": {
+                    "source": "app",
+                    "action": "subscribed",
+                    "date_event": "2012-08-17 20:56:31",
+                }
             }
+
         ],
       "date_requested": "2012-08-17 20:56:34",
       },
     };
 
-    appTester(App.triggers['updatedRelationHook'].operation.perform, bundle)
+    appTester(App.triggers['deletedRelationHook'].operation.perform, bundle)
       .then(results => {
-        results.length.should.eql(1);
         results.should.be.an.Array();
-        cleanedRequest = results[0];
+        cleanedRequest = results;
         done();
       })
       .catch(done);
@@ -100,7 +122,7 @@ describe('TRIGGER Updated relatie trigger update (hook)', () => {
 
 });
 
-describe('TRIGGER Load relaties after update hook', () => {
+describe('TRIGGER - Load relaties after delete hook', () => {
   zapier.tools.env.inject();
 
   it('should load relatie', done => {
@@ -113,7 +135,7 @@ describe('TRIGGER Load relaties after update hook', () => {
       },
     };
 
-    appTester(App.triggers['updatedRelationHook'].operation.performList, bundle)
+    appTester(App.triggers['deletedRelationHook'].operation.performList, bundle)
       .then(result => {
         result.should.be.an.Array();
         done();
