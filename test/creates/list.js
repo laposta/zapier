@@ -90,3 +90,47 @@ describe('DELETE Delete list', () => {
     result.should.not.be.an.Array();
   });
 });
+
+
+
+// describe('POST Create list with fields', () => {
+//   zapier.tools.env.inject();
+
+//   it('should create an object', async () => {
+//     const bundle = {
+//       authData: {
+//         api_key: process.env.API_KEY,
+//       },
+//       inputData: {
+//         'name': 'ZZ-'+randomData.name,
+//         'remarks': randomData.text,
+//         'ip': process.env.IP,
+//         'fields' : [
+//           {
+//             'name'         : 'Voornaam',
+//             'datatype'     : 'text',
+//             'required'     : true,
+//             'in_form'      : false,
+//             'in_list'      : true,
+//           },
+//           {
+//             'name'         : 'Achternaam',
+//             'datatype'     : 'text',
+//             'required'     : true,
+//             'in_form'      : false,
+//             'in_list'      : true,
+//           },
+//         ],
+//       },
+//     };
+
+//     const result = await appTester(
+//       App.creates['createListFields'].operation.perform,
+//       bundle
+//     );
+
+//     created_list_id = result.list.list_id;
+
+//     result.should.not.be.an.Array();
+//   });
+// });
