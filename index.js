@@ -14,6 +14,7 @@ const deleteRelation = require('./creates/delete_relation.js');
 const createList = require('./creates/create_list.js');
 const deleteList = require('./creates/delete_list.js');
 const updateList = require('./creates/update_list.js');
+const createListField = require('./creates/create_list_field.js');
 
 // triggers
 const createdRelationHook = require('./triggers/created_relation_hook.js');
@@ -41,6 +42,7 @@ const App = {
     [createList.key]: createList,
     [deleteList.key]: deleteList,
     [updateList.key]: updateList,
+    [createListField.key]: createListField,
   },
 
   resources: {
