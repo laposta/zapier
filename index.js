@@ -11,6 +11,10 @@ const authentication = require('./authentication');
 // creates
 const upsertRelation = require('./creates/upsert_relation.js');
 const deleteRelation = require('./creates/delete_relation.js');
+const createList = require('./creates/create_list.js');
+const deleteList = require('./creates/delete_list.js');
+const updateList = require('./creates/update_list.js');
+// const createListFields = require('./creates/create_list_fields.js');
 
 // triggers
 const createdRelationHook = require('./triggers/created_relation_hook.js');
@@ -35,6 +39,10 @@ const App = {
   creates: {
     [upsertRelation.key]: upsertRelation,
     [deleteRelation.key]: deleteRelation,
+    [createList.key]: createList,
+    [deleteList.key]: deleteList,
+    [updateList.key]: updateList,
+    // [createListFields.key]: createListFields,
   },
 
   resources: {
