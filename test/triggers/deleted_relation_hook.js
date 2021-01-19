@@ -7,6 +7,7 @@ const appTester = zapier.createAppTester(App);
 let subscribeData = {};
 let cleanedRequest = {};
 
+
 describe('TRIGGER - Subscribe Delete Hook', () => {
   zapier.tools.env.inject();
 
@@ -74,7 +75,28 @@ describe('TRIGGER - Updated delete trigger (hook)', () => {
                     "ip": process.env.IP,
                     "source_url": "http://example.com",
                     "custom_fields": {
-                        "name": "Voornaam",
+                        "voornaam": "Voornaam",
+                    }
+                },
+                "info": {
+                    "source": "app",
+                    "action": "subscribed",
+                    "date_event": "2012-08-17 20:56:31",
+                }
+            },
+            {
+                "type": "member",
+                "event": "deactivated",
+                "data": {
+                    "member_id": "test_2",
+                    "list_id": process.env.LIST_ID,
+                    "email": "test2@example.net",
+                    "state": "deleted",
+                    "signup_date": "2012-08-13 16:13:07",
+                    "ip": process.env.IP,
+                    "source_url": "http://example.com",
+                    "custom_fields": {
+                        "voornaam": "Voornaam Twee",
                     }
                 },
                 "info": {
@@ -83,6 +105,7 @@ describe('TRIGGER - Updated delete trigger (hook)', () => {
                     "date_event": "2012-08-17 20:56:31",
                 }
             }
+
         ],
       "date_requested": "2012-08-17 20:56:34",
       },
@@ -90,9 +113,8 @@ describe('TRIGGER - Updated delete trigger (hook)', () => {
 
     appTester(App.triggers['deletedRelationHook'].operation.perform, bundle)
       .then(results => {
-        results.length.should.eql(1);
         results.should.be.an.Array();
-        cleanedRequest = results[0];
+        cleanedRequest = results;
         done();
       })
       .catch(done);
