@@ -92,8 +92,6 @@ module.exports = {
 
     perform: async(z, bundle) => {
       let body     = bundle.inputData;
-      body.list_id = bundle.inputData.list_id;
-      body.ip      = '0.0.0.0';
       body['options[upsert]'] = true;
 
       const response = await z.request({
@@ -130,6 +128,16 @@ module.exports = {
         list: false,
         altersDynamicFields: false,
       },
+      {
+        key: 'ip',
+        label: 'IP adres',
+        type: 'string',
+        helpText: 'Het IP adres waar de relatie is aangemaakt.',
+        placeholder: 'IP adres',
+        required: true,
+        list: false,
+        altersDynamicFields: false,
+      },
       dynamicInputFields,
     ],
 
@@ -147,6 +155,7 @@ module.exports = {
     sample: {
       list_id: '%list_id%',
       email: 'test@example.net',
+      ip: '0.0.0.0',
     },
   },
 };

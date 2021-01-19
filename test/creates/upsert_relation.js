@@ -28,7 +28,6 @@ describe('UPSERT Create relation', () => {
         'list_id': process.env.LIST_ID,
         'ip': process.env.IP,
         'email': randomData.email,
-        // 'achternaam': randomData.lastname,
         'custom_fields[voornaam]': randomData.firstname,
         'custom_fields[opmerkingen]': randomData.text,
         'custom_fields[datum]': new Date().toISOString(),
