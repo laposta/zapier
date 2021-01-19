@@ -10,6 +10,42 @@
  */
 
 
+
+/*
+  Converts Hooks data to Zap data:
+  - filter by event - event = subscribed|modified|deactivated
+  - flatten items
+  - add unique id's
+ */
+const convertHookData = function(data,event) {
+  // Filter only the hook types we need
+  let filteredData = data.filter( e => e.event==event );
+  // Transform to Zapier data (with unique id etc)
+  let zapData = filteredData.map( e => {
+    let zapDataItem = e.data;
+    zapDataItem.id = zapDataItem.member_id;
+    return zapDataItem;
+  });
+  // console.log('HookData', zapData);
+  return zapData;
+}
+
+/*
+  Converts fallback data to Zap data:
+  - flatten items
+  - add unique id's
+ */
+const convertFallbackData = function(data) {
+  let zapData = data.map( e => {
+    let zapDataItem = e.member;
+    zapDataItem.id = zapDataItem.member_id;
+    return zapDataItem;
+  });
+  // console.log('FallbackData', zapData.slice(0,3));
+  return zapData;
+}
+
+
 module.exports = {
 
 
@@ -59,12 +95,13 @@ module.exports = {
 /*
   Handles the hook itself (hook returns with data)
  */
-  getRelation() {
+  getRelation(event) {
     return (z, bundle) => {
       // bundle.cleanedRequest will include the parsed JSON object (if it's not a
       // test poll) and also a .querystring property with the URL's query string.
-      let data = bundle.cleanedRequest.data[0].data;
-      return [data];
+      let data = bundle.cleanedRequest.data; //[0].data;
+      data = convertHookData(data,event)
+      return data;
     };
   },
 
@@ -83,7 +120,7 @@ module.exports = {
         },
       };
       return z.request(options).then(function(response) {
-        let data = response.data.data.map(m => m.member);
+        let data = convertFallbackData(response.data.data);
         return data;
       });
     };
@@ -108,7 +145,7 @@ module.exports = {
       },
       operation: {
         type: 'hook',
-        perform: self.getRelation(),
+        perform: self.getRelation(settings.event),
         performSubscribe: self.subscribeHook(settings.event),
         performUnsubscribe: self.unsubscribeHook(),
         performList: self.getFallbackRelation(),

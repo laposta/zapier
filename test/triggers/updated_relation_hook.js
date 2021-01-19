@@ -74,7 +74,7 @@ describe('TRIGGER Updated relatie trigger update (hook)', () => {
                     "ip": process.env.IP,
                     "source_url": "http://example.com",
                     "custom_fields": {
-                        "name": "Voornaam",
+                        "voornaam": "Voornaam",
                     }
                 },
                 "info": {
