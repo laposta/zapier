@@ -24,6 +24,7 @@ describe('DELETE - Create new relation for deletion', () => {
       },
       inputData: {
         'list_id': process.env.LIST_ID,
+        'ip': process.env.IP,
         'email': randomData.email,
         'custom_fields[voornaam]': randomData.firstname,
       },
