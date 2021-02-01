@@ -128,16 +128,16 @@ module.exports = {
         list: false,
         altersDynamicFields: false,
       },
-      {
-        key: 'ip',
-        label: 'IP adres',
-        type: 'string',
-        helpText: 'Het IP adres waar de relatie is aangemaakt.',
-        placeholder: 'IP adres',
-        required: true,
-        list: false,
-        altersDynamicFields: false,
-      },
+      // {
+      //   key: 'ip',
+      //   label: 'IP adres',
+      //   type: 'string',
+      //   helpText: 'Het IP adres waar de relatie is aangemaakt.',
+      //   placeholder: 'IP adres',
+      //   required: true,
+      //   list: false,
+      //   altersDynamicFields: false,
+      // },
       dynamicInputFields,
     ],
 
@@ -155,7 +155,7 @@ module.exports = {
     sample: {
       list_id: '%list_id%',
       email: 'test@example.net',
-      ip: '0.0.0.0',
+      // ip: '0.0.0.0',
     },
   },
 };
