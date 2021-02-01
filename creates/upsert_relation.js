@@ -93,6 +93,7 @@ module.exports = {
     perform: async(z, bundle) => {
       let body     = bundle.inputData;
       body['options[upsert]'] = true;
+      if ( !body.ip ) body.ip = '0.0.0.0'; // required field
 
       const response = await z.request({
         url: 'https://api.laposta.nl/v2/member',

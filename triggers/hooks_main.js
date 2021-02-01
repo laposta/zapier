@@ -161,6 +161,10 @@ module.exports = {
             altersDynamicFields: true,
           },
         ],
+        sample : {
+          list_id: '%list_id%',
+          email: 'test@example.net',
+        },
       },
     };
   },
