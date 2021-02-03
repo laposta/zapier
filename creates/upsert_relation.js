@@ -118,6 +118,7 @@ module.exports = {
         required: true,
         list: false,
         altersDynamicFields: true,
+        dynamic:'getLists.list_id.name',
       },
       {
         key: 'email',
