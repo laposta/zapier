@@ -20,6 +20,7 @@ const deleteRelation = require('./creates/delete_relation.js');
 const createdRelationHook = require('./triggers/created_relation_hook.js');
 const updatedRelationHook = require('./triggers/updated_relation_hook.js');
 const deletedRelationHook = require('./triggers/deleted_relation_hook.js');
+const getLists = require('./triggers/get_lists.js');
 
 
 const App = {
@@ -34,6 +35,7 @@ const App = {
     [createdRelationHook.key]: createdRelationHook,
     [updatedRelationHook.key]: updatedRelationHook,
     [deletedRelationHook.key]: deletedRelationHook,
+    [getLists.key]: getLists,
   },
 
   creates: {

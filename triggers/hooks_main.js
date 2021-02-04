@@ -24,6 +24,10 @@ const convertHookData = function(data,event) {
   let zapData = filteredData.map( e => {
     let zapDataItem = e.data;
     zapDataItem.id = zapDataItem.member_id;
+    zapDataItem.signup_date = zapDataItem.signup_date.replace(/(\d{4}?-\d{2}?-\d{2}?)\s(\d{2}?:\d{2}?:\d{2}?)/g, "$1T$2Z");
+    if (zapDataItem.modified) {
+      zapDataItem.modified = zapDataItem.modified.replace(/(\d{4}?-\d{2}?-\d{2}?)\s(\d{2}?:\d{2}?:\d{2}?)/g, "$1T$2Z");
+    }
     return zapDataItem;
   });
   // console.log('HookData', zapData);
@@ -152,13 +156,14 @@ module.exports = {
         inputFields: [
           {
             key: 'list_id',
-            label: 'List ID',
+            label: 'List',
             type: 'string',
             helpText: "De List ID kun je vinden bij de kenmerken van je Laposta lijst.",
             placeholder: 'List ID van jouw lijst',
             required: true,
             list: false,
             altersDynamicFields: true,
+            dynamic:'getLists.list_id.name',
           },
         ],
         sample : {
