@@ -41,7 +41,7 @@ module.exports = {
     inputFields: [
       {
         key: 'list_id',
-        label: 'List ID',
+        label: 'List',
         type: 'string',
         helpText: "De List ID kun je vinden bij de kenmerken van je Laposta lijst.",
         placeholder: 'List ID van te verwijderen lijst',
