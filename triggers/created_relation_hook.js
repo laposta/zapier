@@ -8,7 +8,7 @@ const hook = require('./hooks_main.js');
 
 module.exports = hook.create({
   key : 'createdRelationHook',
-  label : 'Een Nieuwe Relatie Is Toegevoegd',
-  description: 'Triggers when een nieuwe relatie is toegevoegd aan je lijst in je Laposta account.', // Helaas wil Zapier dat dit begint met 'Triggers when...'
+  label : 'A New Relation Has Been Added',
+  description: 'Triggers when een new relation has been added to the list in your Laposta account.',
   event : 'subscribed',
 });
