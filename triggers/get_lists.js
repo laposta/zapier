@@ -1,10 +1,10 @@
 module.exports = {
 
   key: 'getLists',
-  noun: 'Lijsten',
+  noun: 'Lists',
   display: {
-    label: 'Haal lijsten op',
-    description: 'Haal lijsten op',
+    label: 'Get lists',
+    description: 'Get all lists',
     hidden: true,
   },
   operation: {

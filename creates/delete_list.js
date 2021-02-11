@@ -11,10 +11,10 @@
 module.exports = {
 
   key: 'deleteList',
-  noun: 'Lijst',
+  noun: 'List',
   display: {
-    label: 'Verwijder lijst',
-    description: 'Verwijder een lijst van je Laposta account.',
+    label: 'Delete list',
+    description: 'Delete a list from your Laposta account.',
     hidden: false,
     important: true,
   },
@@ -43,8 +43,8 @@ module.exports = {
         key: 'list_id',
         label: 'List',
         type: 'string',
-        helpText: "De List ID kun je vinden bij de kenmerken van je Laposta lijst.",
-        placeholder: 'List ID van te verwijderen lijst',
+        helpText: "You can find the List ID in the properties of your Laposta list.",
+        placeholder: 'List ID of your list',
         required: true,
         list: false,
         altersDynamicFields: true,

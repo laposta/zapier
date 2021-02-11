@@ -8,7 +8,7 @@ const hook = require('./hooks_main.js');
 
 module.exports = hook.create({
   key : 'deletedRelationHook',
-  label : 'Een Relatie Is Verwijderd',
-  description: 'Triggers when een relatie van je Laposta lijst is verwijderd.', // Helaas wil Zapier dat dit begint met 'Triggers when...'
+  label : 'A Relation Has Been Removed',
+  description: 'Triggers when a relation of your Laposta list has been removed.',
   event : 'deactivated',
 });
